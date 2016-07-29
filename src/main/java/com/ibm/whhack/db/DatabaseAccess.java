@@ -3,6 +3,7 @@ package com.ibm.whhack.db;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -62,7 +63,7 @@ public class DatabaseAccess {
 		username = username.toLowerCase();
 		searchUsersStmt.setString(1, username);
 		ResultSet rs = searchUsersStmt.executeQuery();
-		while (rs.next()) {
+		if (rs.next()) {
 			String passwdFromDb = rs.getString(2);
 			if (passwdFromDb.equals(password))
 				return true;
@@ -74,13 +75,16 @@ public class DatabaseAccess {
 		username = username.toLowerCase();
 		searchUsersStmt.setString(1, username);
 		ResultSet rs = searchUsersStmt.executeQuery();
-		while (rs.next()) {
+		if (rs.next()) {
 			return rs.getBoolean(3);
 		}
 		return false;
 	}
 	
-	public static void insertRequest(String username, String classid, File file) throws SQLException, FileNotFoundException {
+	public static void insertRequest(String username, String classid, File file) throws SQLException, FileNotFoundException, IllegalAccessException {
+		if (!userAuthorized(username))
+			throw new IllegalAccessException("User is not authorized to insert requests.");
+		
 		FileInputStream io = new FileInputStream(file);
 		addRequestStmt.setString(1, username.toLowerCase());
 		addRequestStmt.setBinaryStream(2, io , (int)file.length());
@@ -88,16 +92,13 @@ public class DatabaseAccess {
 		addRequestStmt.executeUpdate();
 	}
 	
-	public static void retrieve(String username) throws SQLException {
+	public static InputStream retrieve(String username) throws SQLException {
 		username = username.toLowerCase();
 		searchRequestsStmt.setString(1, username);
 		ResultSet rs = searchRequestsStmt.executeQuery();
-		while (rs.next()) {
-			System.out.println(rs.getString(1));
-		//	String passwdFromDb = rs.getString(2);
-//			if (passwdFromDb.equals(password))
-//				return true;
+		if (rs.next()) {
+			return rs.getBinaryStream(2);
 		}
-//		return false;
+		return null;
 	}
 }
