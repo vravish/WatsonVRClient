@@ -1,0 +1,33 @@
+{
+  "images_processed": 0,
+  "images": [
+    {
+      "source_url": "string",
+      "resolved_url": "string",
+      "image": "string",
+      "error": {
+        "error_id": "string",
+        "description": "string"
+      },
+      "classifiers": [
+        {
+          "name": "string",
+          "classifier_id": "string",
+          "classes": [
+            {
+              "class": "string",
+              "score": 0,
+              "type_hierarchy": "string"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "warnings": [
+    {
+      "warning_id": "string",
+      "description": "string"
+    }
+  ]
+}
