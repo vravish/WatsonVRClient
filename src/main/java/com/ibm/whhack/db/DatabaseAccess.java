@@ -81,15 +81,16 @@ public class DatabaseAccess {
 		return false;
 	}
 	
-	public static void insertRequest(String username, String classid, File file) throws SQLException, FileNotFoundException, IllegalAccessException {
+	public static boolean insertRequest(String username, String classid, File file) throws SQLException, FileNotFoundException {
 		if (!userAuthorized(username))
-			throw new IllegalAccessException("User is not authorized to insert requests.");
+			return false;
 		
 		FileInputStream io = new FileInputStream(file);
 		addRequestStmt.setString(1, username.toLowerCase());
 		addRequestStmt.setBinaryStream(2, io , (int)file.length());
 		addRequestStmt.setString(3, classid);
 		addRequestStmt.executeUpdate();
+		return true;
 	}
 	
 	public static InputStream retrieve(String username) throws SQLException {
