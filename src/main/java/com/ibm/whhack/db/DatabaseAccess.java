@@ -63,6 +63,9 @@ public class DatabaseAccess {
 		username = username.toLowerCase();
 		searchStmt.setString(1, username);
 		ResultSet rs = searchStmt.executeQuery();
-		return rs.getBoolean(3);
+		while (rs.next()) {
+			return rs.getBoolean(3);
+		}
+		return false;
 	}
 }
