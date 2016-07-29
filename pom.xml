@@ -20,11 +20,6 @@
   		<version>4.5.2</version>
   	</dependency>
   	<dependency>
-  		<groupId>org.eclipse.jetty</groupId>
-  		<artifactId>jetty-client</artifactId>
-  		<version>9.4.0.M0</version>
-  	</dependency>
-  	<dependency>
   		<groupId>mysql</groupId>
   		<artifactId>mysql-connector-java</artifactId>
   		<version>5.1.6</version>
